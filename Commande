@@ -1,0 +1,78 @@
+mvn clean package
+
+java -cp target/flink-state-benchmark-1.0-SNAPSHOT.jar com.benchmark.StatelessBidFilterJob
+
+java -cp target/flink-state-benchmark-1.0-SNAPSHOT.jar com.benchmark.StatefulMaxBidFilterJob
+
+java -cp target/flink-state-benchmark-1.0-SNAPSHOT.jar com.benchmark.NexmarkQuery5Job
+
+
+
+------------------------------------
+
+./bin/start-cluster.sh
+cd ~/STAGE_L2/flink-state-benchmark
+mvn clean package
+~/Téléchargements/flink-1.20.5-bin-scala_2.12/flink-1.20.5/bin/flink run -c com.benchmark.NexmarkQuery8Job target/flink-state-benchmark-1.0-SNAPSHOT.jar
+
+jps | grep TaskManagerRunner
+kill -9 12345
+
+
+20949 pts/1    00:00:12 java
+  21557 pts/1    00:00:09 java
+
+
+~/Téléchargements/flink-1.20.5-bin-scala_2.12/flink-1.20.5/bin/flink run -c com.benchmark.NexmarkQuery8Job target/flink-state-benchmark-1.0-SNAPSHOT.jar
+	
+	Job has been submitted with JobID 1f88312cfc61899722df468c995ca4f0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+gcloud container clusters create-auto mon-cluster --region europe-west9
+gcloud container clusters delete mon-cluster --region europe-west9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
