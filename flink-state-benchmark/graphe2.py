@@ -1,20 +1,20 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
-df_stateless = pd.read_csv('summary_STATELESS.csv')
-df_stateful = pd.read_csv('summary_STATEFUL.csv')
+df_2 = pd.read_csv('summary_QUERY_2.csv')
+df_5 = pd.read_csv('summary_QUERY_5.csv')
 
 plt.figure(figsize=(9, 5))
 plt.plot(
-    df_stateless['seconde'],
-    df_stateless['p99_moyen_ms'],
+    df_2['seconde'],
+    df_2['p99_moyen_ms'],
     label='Stateless p99',
     color='#1f77b4',
     linewidth=1.5,
 )
 plt.plot(
-    df_stateful['seconde'],
-    df_stateful['p99_moyen_ms'],
+    df_5['seconde'],
+    df_5['p99_moyen_ms'],
     label='Stateful p99',
     color='#d62728',
     linewidth=1.5,
@@ -31,5 +31,5 @@ plt.yticks(fontsize=12)
 plt.grid(True, linestyle='--', alpha=0.6)
 plt.legend(loc='upper right')
 plt.tight_layout()
-plt.savefig('graphe_latence_p99.png', dpi=300)
+plt.savefig('graphe_latence_p99_QUERY_2_&_5.png', dpi=300)
 plt.show()

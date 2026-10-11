@@ -36,9 +36,13 @@ public class BenchmarkMetricsListener<T extends Timestamped & Serializable> exte
         this.secondCounter = 0;
 
         int subtaskIndex = getRuntimeContext().getIndexOfThisSubtask();
+        int attempt = getRuntimeContext().getAttemptNumber(); 
         String filename = "metrics_" + mode + "_subtask_" + subtaskIndex + ".csv";
-        this.writer = new PrintWriter(new FileWriter(filename, false), true);
-        this.writer.println("seconde,mode,subtask,debit_rec_s,p50_ms,p99_ms,heap_mo");
+        boolean append = (attempt > 0);
+        this.writer = new PrintWriter(new FileWriter(filename, append), true);
+        if (!append) {
+            this.writer.println("seconde,mode,subtask,debit_rec_s,p50_ms,p99_ms,heap_mo");
+        }
     }
 
     @Override

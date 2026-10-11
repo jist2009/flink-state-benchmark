@@ -1,24 +1,28 @@
 package com.benchmark;
 
-import org.apache.flink.streaming.api.functions.source.SourceFunction;
-import java.util.Random;
+import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
 
-public class PersonSource implements SourceFunction<Person> {
-    private volatile boolean running = true;
-
+public class PersonSource extends RichParallelSourceFunction<Person> {
+    private volatile boolean isRunning = true;
+    private static final long RUN_DURATION_MS = 300_010L; 
+    
     @Override
     public void run(SourceContext<Person> ctx) throws Exception {
-        Random rand = new Random();
-        long id = 1000;
-        while (running) {
+        int subtask = getRuntimeContext().getIndexOfThisSubtask();
+        int totalSubtasks = getRuntimeContext().getNumberOfParallelSubtasks();
+        long id = 1000 + subtask;
+        long startTime = System.currentTimeMillis();
+
+        while (isRunning && (System.currentTimeMillis() - startTime < RUN_DURATION_MS)) {
             long ts = System.currentTimeMillis();
             ctx.collect(new Person(id++, "User_" + id, ts));
-            Thread.sleep(10); // Ajuste la cadence selon tes besoins
+            id += totalSubtasks;
+            Thread.sleep(10); // génère ~1000 événements/sec pour le test local
         }
     }
 
     @Override
     public void cancel() {
-        running = false;
+        isRunning = false;
     }
 }

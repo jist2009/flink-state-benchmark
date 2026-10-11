@@ -25,10 +25,10 @@ public class NexmarkQuery5Job {
 
     public static void main(String[] args) throws Exception {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-
+        env.setParallelism(4);
         // Checkpoint toutes les secondes pour tester la surcharge de l'état étendu
-        env.enableCheckpointing(1000);
-        env.getCheckpointConfig().setMinPauseBetweenCheckpoints(500);
+        //env.enableCheckpointing(1000);
+        //env.getCheckpointConfig().setMinPauseBetweenCheckpoints(500);
 
         // Définition de la stratégie de Watermark basée sur le timestamp des événements
         WatermarkStrategy<Bid> watermarkStrategy = WatermarkStrategy
@@ -36,13 +36,14 @@ public class NexmarkQuery5Job {
                 .withTimestampAssigner((bid, recordTimestamp) -> bid.timestamp);
 
         DataStream<Bid> bids = env.addSource(new BidSource())
-                .assignTimestampsAndWatermarks(watermarkStrategy);
+                .assignTimestampsAndWatermarks(watermarkStrategy)
+                .map(new BenchmarkMetricsListener<>("QUERY_5_INPUT")); 
 
         // ÉTAPE 1 : Agrégation par fenêtre glissante (60 min de taille, glissement 1 min)
         // (Pour un test synthétique court, vous pouvez réduire à Time.seconds(10) et Time.seconds(1))
         DataStream<AuctionCount> windowCounts = bids
                 .keyBy(bid -> bid.auction)
-                .window(SlidingEventTimeWindows.of(Time.minutes(60), Time.minutes(1)))
+                .window(SlidingEventTimeWindows.of(Time.seconds(15), Time.seconds(10)))
                 .aggregate(new CountAggregator(), new WindowResultFunction());
 
         // ÉTAPE 2 : Trouver le(s) objet(s) ayant le maximum d'enchères par fenêtre

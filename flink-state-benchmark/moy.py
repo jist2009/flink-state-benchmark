@@ -37,5 +37,6 @@ def agreger_et_nettoyer(mode="STATELESS"):
 
 
 # Exécution
-agreger_et_nettoyer("STATELESS")
-agreger_et_nettoyer("STATEFUL")
+agreger_et_nettoyer("QUERY_2_SELECTION")
+#agreger_et_nettoyer("STATELESS")
+#agreger_et_nettoyer("STATEFUL")

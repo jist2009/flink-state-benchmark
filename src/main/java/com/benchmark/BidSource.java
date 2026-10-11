@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class BidSource implements SourceFunction<Bid> {
     private volatile boolean isRunning = true;
-    private static final long RUN_DURATION_MS = 180010; // 180,01 secondes
+    private static final long RUN_DURATION_MS = 300_010L; 
 
     @Override
     public void run(SourceContext<Bid> ctx) throws Exception {
@@ -19,7 +19,7 @@ public class BidSource implements SourceFunction<Bid> {
             long timestamp = System.currentTimeMillis();
 
             ctx.collect(new Bid(auctionId, price, timestamp));
-            //Thread.sleep(1); // génère ~1000 événements/sec pour le test local
+            Thread.sleep(10); // génère ~200 événements/sec pour le test local
         }
     }
 

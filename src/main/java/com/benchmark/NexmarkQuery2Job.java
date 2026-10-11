@@ -12,8 +12,8 @@ public class NexmarkQuery2Job {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         // Checkpointing activé à 1 s pour évaluer le coût minimal de sauvegarde sans état
-        env.enableCheckpointing(1000);
-        env.getCheckpointConfig().setMinPauseBetweenCheckpoints(500);
+        //env.enableCheckpointing(1000);
+        //env.getCheckpointConfig().setMinPauseBetweenCheckpoints(500);
 
         DataStream<Bid> bids = env.addSource(new BidSource());
 

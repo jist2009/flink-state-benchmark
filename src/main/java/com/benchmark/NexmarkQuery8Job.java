@@ -17,8 +17,8 @@ public class NexmarkQuery8Job {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         // Checkpointing régulier pour mesurer le coût de sauvegarde d'un double état
-        env.enableCheckpointing(2000);
-        env.getCheckpointConfig().setMinPauseBetweenCheckpoints(1000);
+        //env.enableCheckpointing(2000);
+        //env.getCheckpointConfig().setMinPauseBetweenCheckpoints(1000);
 
         // Configuration des watermarks pour les deux flux
         WatermarkStrategy<Person> personWatermark = WatermarkStrategy
@@ -40,7 +40,7 @@ public class NexmarkQuery8Job {
         // (Pour un test synthétique rapide sur machine locale, réduisez à Time.minutes(1) ou Time.seconds(30))
         DataStream<NewUserAuctionResult> joinedStream = persons.keyBy(p -> p.id)
                 .intervalJoin(auctions.keyBy(a -> a.seller))
-                .between(Time.milliseconds(0), Time.hours(12))
+                .between(Time.milliseconds(0), Time.seconds(20))
                 .process(new ProcessJoinFunction<Person, Auction, NewUserAuctionResult>() {
                     @Override
                     public void processElement(

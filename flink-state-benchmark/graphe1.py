@@ -1,20 +1,21 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
-df_stateless = pd.read_csv('summary_STATELESS.csv')
-df_stateful = pd.read_csv('summary_STATEFUL.csv')
-
+#df_stateless = pd.read_csv('summary_STATELESS.csv')
+#df_stateful = pd.read_csv('summary_STATEFUL.csv')
+df_2 = pd.read_csv('summary_QUERY_2.csv')
+df_5 = pd.read_csv('summary_QUERY_5.csv')
 plt.figure(figsize=(9, 5))
 plt.plot(
-    df_stateless['seconde'],
-    df_stateless['debit_total_rec_s'],
+    df_2['seconde'],
+    df_2['debit_total_rec_s'],
     label='Stateless',
     color='#1f77b4',
     linewidth=1.5,
 )
 plt.plot(
-    df_stateful['seconde'],
-    df_stateful['debit_total_rec_s'],
+    df_5['seconde'],
+    df_5['debit_total_rec_s'],
     label='Stateful',
     color='#d62728',
     linewidth=1.5,
@@ -32,5 +33,5 @@ plt.yticks(fontsize=12)
 plt.grid(True, linestyle='--', alpha=0.6)
 plt.legend(loc='lower right', fontsize=13)
 plt.tight_layout()
-plt.savefig('graphe_debit.png', dpi=300)
+plt.savefig('graphe_debit_QUERY_2_&_5.png', dpi=300)
 plt.show()
